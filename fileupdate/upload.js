@@ -7,7 +7,7 @@ const Busboy = require("busboy");
 /**
  * 同步穿件文件目录
  * @param {string} dirname 目录绝对地址
- * @return {boolean} 创建目录结果 
+ * @return {boolean} 创建目录结果
  */
 function mkdirsSync(dirname) {
 	if (fs.existsSync(dirname)) {
@@ -79,6 +79,4 @@ function uploadFile(ctx, options) {
 
 	})
 }
-module.exports = {
-	uploadFile
-}
+module.exports = uploadFile;
