@@ -1,10 +1,12 @@
-const Koa = require('koa');
-const app = new Koa();
-
-app.use( async(ctx) =>{
-    let url =ctx.request.url
-    ctx.body = url
-})
-
-app.listen(3000);
-
+async function testAsync() {
+	return "hello async";
+}
+function getData() {
+	return "zhangsan"
+}
+async function test() {
+	const v1 = await getData();
+	const v2 = await testAsync();
+	console.log(v1,v2);
+}
+test();
