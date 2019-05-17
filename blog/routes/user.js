@@ -28,7 +28,7 @@ module.exports = {
 
 	async signin(ctx, next) {
 		if (ctx.session.user) {
-			ctx.flash = { warning: '已登录' }
+			ctx.flash = {warning: '已登录'}
 			ctx.redirect('back')
 			return
 		}
@@ -38,8 +38,8 @@ module.exports = {
 			})
 			return
 		}
-		const { name, password } = ctx.request.body
-		const user = await UserModel.findOne({ name })
+		const {name, password} = ctx.request.body
+		const user = await UserModel.findOne({name})
 		if (user && await bcrypt.compare(password, user.password)) {
 			ctx.session.user = {
 				_id: user._id,
@@ -47,17 +47,18 @@ module.exports = {
 				isAdmin: user.isAdmin,
 				email: user.email
 			}
-			ctx.flash = { success: '登录成功' }
+			ctx.flash = {success: '登录成功'}
 			ctx.redirect('/')
 		} else {
-			ctx.flash = { warning: '用户名或密码错误' }
+			ctx.flash = {warning: '用户名或密码错误'}
 			ctx.redirect('back')
 		}
 
 	},
 	// 登出
 	async signout(ctx, next) {
-		ctx.session = null
+		ctx.session.user = null
+		ctx.flash = { warning: '退出成功' }
 		ctx.redirect('/')
 	}
 };

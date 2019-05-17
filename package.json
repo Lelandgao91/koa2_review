@@ -4,6 +4,7 @@
   "description": "\"# koa2_review\"",
   "main": "index.js",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "busboy": "^0.3.1",
     "ejs": "^2.6.1",
     "koa": "^2.7.0",
@@ -11,6 +12,7 @@
     "koa-jsonp": "^2.0.2",
     "koa-mysql-session": "0.0.2",
     "koa-router": "^7.4.0",
+    "koa-session": "^5.11.0",
     "koa-session-minimal": "^3.0.4",
     "koa-static": "^5.0.0",
     "koa-views": "^6.2.0",
