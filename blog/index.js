@@ -8,6 +8,7 @@ const Koa = require("koa"),
   flash = require('./middlewares/flash'),
   mongoose = require("mongoose"),
   bodyParser = require("koa-bodyparser"),
+  marked = require("marked"),
   app = new Koa();
 
 // 模板引擎
@@ -42,6 +43,22 @@ app.use(session({
 
 app.use(flash())
 
+marked.setOptions({
+	renderer: new marked.Renderer(),
+	gfm: true,
+	tables: true,
+	breaks: false,
+	pedantic: false,
+	sanitize: false,
+	smartLists: true,
+	smartypants: false
+})
+
+app.use(async (ctx, next) => {
+	ctx.state.ctx = ctx;
+	ctx.state.marked = marked;
+	await next()
+})
 router(app);
 
 if (!module.parent) app.listen(CONFIG.port)
