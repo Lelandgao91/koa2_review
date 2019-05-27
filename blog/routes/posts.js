@@ -1,4 +1,5 @@
 const PostModel = require('../models/post')
+const CommentModel = require('../models/comments')
 module.exports = {
 	// 列表
 	async index(ctx, next) {
@@ -13,26 +14,29 @@ module.exports = {
 	async create(ctx, next) {
 		if (ctx.method === 'GET') {
 			await ctx.render('create', {
-				title: "新建文章"
+				title: '新建文章',
 			})
-			return
 		} else if (ctx.method === 'POST') {
 			const post = Object.assign(ctx.request.body, {
 				author: ctx.session.user._id
 			})
-			const res = await PostModel.create(post)
-			ctx.flash = {success: "发表文章成功"}
+			const res = await PostModel.create(post);
+			ctx.flash = {success: '发表文章成功'}
 			ctx.redirect(`/posts/${res._id}`)
 		}
+
 	},
-	// 查询
-	async show(ctx, next) {
+	// 显示页面
+	async show (ctx, next) {
 		const post = await PostModel.findById(ctx.params.id)
-		  .populate({path: 'author', select: 'name'})
+		  .populate({ path: 'author', select: 'name' })
+		// 查找评论
+		const comments = await CommentModel.find({ postId: ctx.params.id })
+		  .populate({ path: 'from', select: 'name' })
 		await ctx.render('post', {
 			title: post.title,
 			post,
-			// comments
+			comments
 		})
 	},
 	// 更新

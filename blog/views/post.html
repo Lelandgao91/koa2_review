@@ -16,8 +16,10 @@
 					{% endif %}
 				</div>
 				{{marked(post.content) | safe}}
-				
 			</div>
+			<section class="margin-top box">
+				{% include "views/components/comments.html" %}
+			</section>
 		</div>
 	</div>
 </div>

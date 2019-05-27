@@ -1,7 +1,17 @@
 const bcrypt = require("bcryptjs"),
-  UserModel = require("../models/user");
+  UserModel = require("../models/user"),
+  PostModel = require('../models/post');
 
 module.exports = {
+	async index (ctx, next) {
+		const username = ctx.params.username
+		const user = await UserModel.findOne({ name: username })
+		if (!user) {
+			return ctx.throw(404, '没有该用户')
+		}
+		const posts = await PostModel.find({ author: user._id }, { content: 0 })
+		await ctx.render('user', { user, posts })
+	},
 	async signup(ctx, next) {
 		if (ctx.method === 'GET') {
 			await ctx.render('signup', {
